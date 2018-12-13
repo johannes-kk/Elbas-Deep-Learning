@@ -55,6 +55,7 @@ The complete set of files is over 300GB, hence we need to limit it considerably.
 The resulting weather dataset is just shy of 6.5GB, which fits into memory alongside the market data on the available hardware. Each forecast’s set of five bands is mapped to corresponding delivery hours so that it can be joined with the market data and, therefore, the associated volume-weighted Elbas prices:
 
 ![Weather data example](figures/data_grib/grid_prices.png "GRIB weather data mapped to delivery hour VWP")
+  
 *Forecasts of the five bands and the corresponding VWP (€/MWh) at delivery hours in intervals of 36 hours, starting at midnight on November 2, 2011. From the top, each row corresponds to a band: temperature, precipitation, two wind vectors, and solar radiation.*
 
 ---
