@@ -7,7 +7,7 @@ This markdown is a highly abbreviated version of the thesis. After the full abst
 
 The complete thesis is included in the repository, along with most of the code for data preprocessing and fitting of the final models, as well as numerous plots and illustrations.
 
-The raw data can unfortunately not be shared due to our agreement with the data providers Nord Pool and SMHI (via Montel).
+The raw data can unfortunately not be shared due to our agreement with the data providers Nord Pool and Montel.
 
 ___
 ## Abstract
