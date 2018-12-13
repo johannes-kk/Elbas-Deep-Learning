@@ -1,13 +1,5 @@
 import numpy as np
 
-# `data`: The original array of floating point data, which we just normalized in the code snippet above.
-# `lookback`: How many timesteps back should our input data go.
-# `delay`: How many timesteps in the future should our target be.
-# `min_index` and `max_index`: Indices in the `data` array that delimit which timesteps to draw from. This is useful for keeping a segment of the data for validation and another one for testing.
-# `shuffle`: Whether to shuffle our samples or draw them in chronological order.
-# `batch_size`: The number of samples per batch.
-# `step`: The period, in timesteps, at which we sample data. We will set it 6 in order to draw one data point every hour.
-
 def generator(data, lookback, min_index = 0, max_index = None, delay = 0,
               shuffle = False, batch_size = 128, step = 1):
     if max_index is None:
