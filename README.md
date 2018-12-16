@@ -1,9 +1,10 @@
-# Elbas-Deep-Learning
-*Authors: Johannes Kolberg, Kristin Waage*
+# Thesis Summary
+Authors: *Johannes Kolberg, Kristin Waage*
+Title: *"Artificial Intelligence and Nord Pool's Intraday Electricity Market Elbas: A Demonstration and Pragmatic Evaluation of Employing Deep Learning for Price Prediction"*
 
-Thesis project for the MSc in Business Administration and Economics at the Norwegian School of Economics. Title: *" Artificial Intelligence and Nord Pool's Intraday Electricity Market Elbas: A Demonstration and Pragmatic Evaluation of Employing Deep Learning for Price Prediction"*
+Thesis project for the MSc in Business Administration and Economics at the Norwegian School of Economics. Written for both decision-makers in the Nordic electricity market – but do not necessarily have knowledge of deep learning – and for technically inclined readers without a deep understanding of electricity markets.
 
-This markdown is a highly abbreviated version of the thesis. After the full abstract, it contains brief summaries, highlights and salient plots for the problem definition, the best simple baseline, the data used, the final model, and a brief discussion of the results. 
+This markdown is a highly abbreviated version of the thesis. The abstract is included in full, followed by brief summaries, highlights, and salient plots for the problem definition, best simple baseline, data used, final model, and results.
 
 The complete thesis is included in the repository, along with most of the code for data preprocessing and fitting of the final models, as well as numerous plots and illustrations.
 
@@ -21,7 +22,13 @@ The deep learning models are relatively accurate and reliable under normal marke
 ## Problem summary
 Electricity markets require constant balance between supply and demand, since the product can only be traded cross-border or stored in economic terms to limited extents. Deregulated exchanges provide multiple trading opportunities to efficiently match supply and demand, and play a crucial role in helping ensure stability in the power system. 
 
-The day-ahead electricity markets are usually auction-based, where power is traded for each consecutive hour of the following day, and are the main arena for trading power. It is a highly complex market with a myriad of potentially influential variables, and where the relationships between these variables are often non-linear. Recent years have seen a rise in the use of ML for addressing similarly complex and non-linear prediction problems in a variety of domains, including day-ahead electricity pricing. However, many ML techniques struggle when the data has very high dimensionality. Many such methods also presuppose, either directly or indirectly, the kind of function they should fit to tackle the given problem. Deep learning incorporates more general-purpose assumptions that the data-generating process is a hierarchical composition of factors, and (in theory) automate feature engineering. As such, we evaluate whether deep learning is a viable method for predicting hourly prices in the Nordic intraday electricity market.
+The day-ahead electricity markets are usually auction-based, where power is traded for each consecutive hour of the following day, and are the main arena for trading power. It is a highly complex market with myriad potentially influential variables, and where the relationships between these variables are often non-linear. Recent years have seen a rise in the use of ML for addressing similarly complex and non-linear prediction problems in a variety of domains, including day-ahead electricity pricing. However, many ML techniques struggle when the data has very high dimensionality. Many such methods also presuppose, either directly or indirectly, the kind of function they should fit to tackle the given problem. Deep learning incorporates more general-purpose assumptions that the data-generating process is a hierarchical composition of factors, and (in theory) automates feature engineering. 
+
+The aim of this thesis is therefore to demonstrate the use of deep learning to automate hourly price forecasts in the Nordic intraday electricity market, Elbas, using specialised sequential networks on comprehensive market data and image processing on geospatial weather forecast maps. The ambition is to demonstrate the potential of using deep learning to both address problems that have been left untouched due to their complexity, and to automate hitherto laborious and repetitive processes. We also attempt to elucidate the practical challenges to implementing such AI agents, based both on our own experience with this thesis, and industry experience.
+
+Specifically, we focus on the Nordic electricity exchange, Nord Pool, and its continuous intraday market, Elbas. We take the perspective of a Nordic market participant with an interest in buying power for a given delivery hour. As Elbas operates continuously, many trading opportunities may arise for each hour of power delivery. While the focus is on building deep learning models that are as accurate and reliable as possible in their predictions, we also incorporate constraints and trade-offs that would exist in practice, so as to demonstrate the potential of deep learning under realistic conditions.
+
+Knowing when or if specific trades occur is outside the scope of this thesis, hence we do not predict prices of individual trades. Instead, we predict Nordic buyers’ volume-weighted average price over the last six hours of trading prior to each delivery hour. Intraday trading activity is usually concentrated in these final hours, where the window of six hours is a balance between giving the buyer sufficient time to act on the prediction and mitigating challenges with data sparsity while keeping sufficient detail for predictions to be interesting.
 
 As there may be several Elbas trades for each hour of power delivery, we use a volume-weighted average price (VWP) of trades for a given hour of power delivery as the hourly intraday buyer price. This is the output variable our models are trained to predict. As we predict an aggregate VWP over the six hours remaining until delivery, it is likely some trades for the corresponding hour have already been settled. This information is available to traders, and we engineer a feature that captures the VWP over all hours of trading up to the point where a prediction is made. Dividing into finer intervals resulted in excessive data sparsity and therefore an unrasonable amount of imputation. Hence, we predict the "near" VWP, whereas this additional feature of information on preceding trades is the "far" VWP. 
 
@@ -43,7 +50,7 @@ The market data consists of thousands of separate files of differing formats tha
 
 Coercing all of these different file structures into a consistent timeline of hourly data takes considerable wrangling in a mix of R (mostly using *tidyverse*) and Python (via *Numpy* and *Pandas*). The code for doing so is in the repository. Quite extensive preprocessing is necessary. For all the details, please refer to the full thesis.
 
-The resulting market dataset comprises a continuous timeline with one volume-weighted price per hour of power delivery. Since we aim to build models that capture the temporal structure, we simply split this into three contiguous train, validation, and test sets. Cross-validation or other forms of resampling would yield more robust estimates, but also be more cumbersome to implement while maintaining the temporal structure, and be computationally heavy due to repeated fitting. We instead argue that we have enough data points for a simple three-fold split:
+The resulting market dataset contains 53,400 observations of 328 features, and comprises a continuous timeline with one volume-weighted price per hour of power delivery. Since we aim to build models that capture the temporal structure, we simply split this into three contiguous train, validation, and test sets. Cross-validation or other forms of resampling would yield more robust estimates, but also be more cumbersome to implement while maintaining the temporal structure, and be computationally heavy due to repeated fitting. We instead argue that we have enough data points for a simple three-fold split:
 ![Output variable](figures/train_val_test_split.jpeg "Train/validation/test split")
 
 
@@ -60,7 +67,7 @@ The resulting weather dataset is just shy of 6.5GB, which fits into memory along
 
 ---
 ## Deep Learning
-The deep learning models are implemented in Keras using the TensorFlow backend, and run on a GTX 980 Ti GPU. Since the best nerworks beat the benchmarks models (including gradient boosting), the latter are not included in this brief summary.
+The deep learning models are implemented in Keras using the TensorFlow backend, and run on a GTX 980 Ti GPU. Since the best networks beat the benchmarks models (including gradient boosting), the latter are not included in this brief summary.
 
 We used an iterative approach that combines experimentation and inspiration from other research to pursue a more guided path through the space of possible network architectures. To reduce the space of possible architectures we make a set of design choices based on other research and our own empirical experimentation:
 * *Loss* function: minimise MAE.
