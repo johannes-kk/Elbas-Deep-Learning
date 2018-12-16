@@ -104,7 +104,9 @@ The results of the best simple baseline, best model baseline (from econometrics 
 
 
 ![Subset of model output on test set.](figures/model_results/subset_targets_vs_predicted.jpeg "Multi-LSTM ResNet true vs predicted on a subset of the test set.")
-*Near Elbas VWP predictions from using the Multi LSTM ResNet model (red) compared to the true values (blue), over a three-week period with at times quite volatile prices. The stippled bands mark the lower and upper limit of the test set interquartile range (IQR).*
+*Near Elbas VWP predictions from using the Multi LSTM ResNet model (red) compared to the true values (blue), over a three-week period with at times quite volatile prices. The stippled bands mark the lower and upper limit of the test set interquartile range (IQR).*  
+
+The RIE of the five trained models beat the median CE, which in turn beat the median MVL. This ensemble also performed better under especially volatile periods. A few examples are shown below, plotted against the true VWP, as well as the IQR and min/max of the underlying individual trades.
 
 ![](figures/model_results/combined_subset_2.jpeg "Cherry-picking an impressive-looking subset.")
 ![](figures/model_results/combined_subset_1.jpeg "Cherry-picking another impressive-looking subset.")
